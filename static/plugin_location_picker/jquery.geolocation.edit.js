@@ -243,7 +243,7 @@
 
             script = document.createElement("script");
             script.type = "text/javascript";
-            script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=$.fn.geolocateGMapsLoaded";
+            script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyD7_0UmPKGsHjpBln8QdUbbhME-gilX8So&sensor=false&callback=$.fn.geolocateGMapsLoaded";
             document.body.appendChild(script);
         };
     })();
