@@ -55,6 +55,7 @@ def location_widget(**settings):
     mapid -- id of the map container default random.
     latid -- id of the latitude input default random.
     lngid -- id of the longitude input default random.
+    address --
     map_options -- see https://developers.google.com/maps/documentation/javascript/reference?csw=1#MapOptions
     marker_options -- see https://developers.google.com/maps/documentation/javascript/reference?csw=1#MarkerOptions
                       

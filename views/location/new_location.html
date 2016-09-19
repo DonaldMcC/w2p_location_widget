@@ -2,9 +2,9 @@
 
 <h1 data-toggle =" popover" title ="Locations are used to group events and they can be physical or virtual.  All events must have a location and as a creator of a location you can choose if it is shared with other users so they can add events or if only you as the owner of the event can do this." data-content="">Create Location</h1>
 
+
 {{=form}}
 
-<p>{{=gmapsapikey}}</p>
 
 {{block right_sidebar}}
 
@@ -23,69 +23,31 @@
 
 <script>
 
-var gmapsapikey = "{{=gmapsapikey}}";
 $("#geocode").click(function(){
-         console.log("geocode was clicked");
+         //console.log("geocode was clicked");
+
+   var address = $("#locn_address1").val( ).concat(" ", $("#locn_address2").val( ), " ",  $("#locn_address3").val( ), " ",  $("#locn_address4").val( ), " ",  $("#locn_country").val( ));
+    console.log(address);
         });
 
         
-
-         /*
-         $("#map3").geolocate({
-	lat: "#lat3",
-	lng: "#lng3",
-	address: ["#address3"]
+/*
+         $("#formtest").geolocate({
+	lat: "#locn_geox",
+	lng: "#locn_geoy",
+	address: ["#locn_address1","#locn_address2","#locn_address3","#locn_address4","#locn_country"]
 });
-
 */
 
 
-    
 $("#rev_geocode").click(function(){
          console.log("rev geocode was clicked");
     });
+
+    
   </script>
 
-<!--script src="https://maps.googleapis.com/maps/api/js?"></script>
 
-<script>
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(success);
-} else {
-  error('Geo Location is not supported');
-}
-
-
-
-function success(position) {
-     latitude = position.coords.latitude;
-     longitude = position.coords.longitude;
-     var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-   
-        var options = {
-    zoom: 15,
-    center: coords,
-    mapTypeControl: false,
-    navigationControlOptions: {
-    	style: google.maps.NavigationControlStyle.SMALL
-    },
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
-
-    map = new google.maps.Map(document.getElementById('map'), options);
-
-    var marker = new google.maps.Marker({
-      position: coords,
-      map: map,
-      title:"You are here!"
-
-    });
-    
-    };
-    
-    </script>
-
--->
 
  
 
