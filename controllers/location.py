@@ -43,9 +43,16 @@ def index():
 
 
 def new_location():
+
+    stdclass = "btn btn-primary btn-xs btn-group-xs"
     # This allows creation and editing of a locations by their owner
     fields = ['location_name', 'description', 'addrurl', 'address1', 'address2', 'address3', 'address4', 'addrcode',
               'continent', 'country', 'subdivision', 'geox','geoy', 'coord', 'locn_shared']
+              
+    buttons = [TAG.button('Submit',_type="submit"),
+               TAG.INPUT(_TYPE='BUTTON', _id="rev_geocode", _class=stdclass, _onclick="", _VALUE="Get Address"),
+               TAG.INPUT(_TYPE='BUTTON', _id="geocode", _class=stdclass, _onclick="", _VALUE="Get Co-ordinates")]
+               
     locationid = request.args(0, default=None)
     if locationid is not None:
         record = db.location(locationid)
@@ -54,7 +61,7 @@ def new_location():
             redirect(URL('new_location'))
         form = SQLFORM(db.locn, record, fields=fields)
     else:
-        form = SQLFORM(db.locn, fields=fields)
+        form = SQLFORM(db.locn, fields=fields, buttons=buttons)
 
     if form.validate():
         if locationid:

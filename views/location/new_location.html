@@ -4,6 +4,8 @@
 
 {{=form}}
 
+<p>{{=gmapsapikey}}</p>
+
 {{block right_sidebar}}
 
 
@@ -16,8 +18,35 @@
 
 <div id="map" style="width: 500px; height: 400px;"></div>
 
+{{# TODO move to separate script presently as part of plugin}}
 
-<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7_0UmPKGsHjpBln8QdUbbhME-gilX8So"></script>
+
+<script>
+
+var gmapsapikey = "{{=gmapsapikey}}";
+$("#geocode").click(function(){
+         console.log("geocode was clicked");
+        });
+
+        
+
+         /*
+         $("#map3").geolocate({
+	lat: "#lat3",
+	lng: "#lng3",
+	address: ["#address3"]
+});
+
+*/
+
+
+    
+$("#rev_geocode").click(function(){
+         console.log("rev geocode was clicked");
+    });
+  </script>
+
+<!--script src="https://maps.googleapis.com/maps/api/js?"></script>
 
 <script>
 if (navigator.geolocation) {
@@ -25,7 +54,6 @@ if (navigator.geolocation) {
 } else {
   error('Geo Location is not supported');
 }
-
 
 
 
