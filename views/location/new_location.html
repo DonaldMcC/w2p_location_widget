@@ -16,34 +16,55 @@
 </script>
 
 
-<div id="map" style="width: 500px; height: 400px;"></div>
 
-{{# TODO move to separate script presently as part of plugin}}
+{{# TODO move to separate script presently or make part of plugin}}
 
 
 <script>
 
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(success);
+} else {
+  error('Geo Location is not supported');
+}
+
+
+function geo_refresh() {
+console.log('ref')
+$("#lw_map").geolocate({
+	lat: "#lw_lat",
+	lng: "#lw_lng"
+});
+    };
+
+
+function success(position) {
+     $("#lw_lat").val(position.coords.latitude);
+     $("#lw_lng").val(position.coords.longitude);
+     geo_refresh();
+    };
+   
+$("#lw_lng" ).change(function() {
+     geo_refresh();
+});   
+
+$("#lw_lat" ).change(function() {
+     geo_refresh();
+});  
+
 $("#geocode").click(function(){
-         //console.log("geocode was clicked");
-
-   var address = $("#locn_address1").val( ).concat(" ", $("#locn_address2").val( ), " ",  $("#locn_address3").val( ), " ",  $("#locn_address4").val( ), " ",  $("#locn_country").val( ));
-    console.log(address);
-        });
-
-        
-/*
-         $("#formtest").geolocate({
-	lat: "#locn_geox",
-	lng: "#locn_geoy",
+    $("#lw_map").geolocate({
+    lat: "#lw_lat",
+	lng: "#lw_lng",
 	address: ["#locn_address1","#locn_address2","#locn_address3","#locn_address4","#locn_country"]
 });
-*/
+$("#lw_map").geolocate("callGeocoding");
+        });
 
 
 $("#rev_geocode").click(function(){
-         console.log("rev geocode was clicked");
+         console.log("Not going to implement this for now");
     });
-
     
   </script>
 

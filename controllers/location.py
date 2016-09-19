@@ -49,10 +49,11 @@ def new_location():
     fields = ['location_name', 'description', 'addrurl', 'address1', 'address2', 'address3', 'address4', 'addrcode',
               'continent', 'country', 'subdivision', 'coord', 'locn_shared']
 
-    buttons = [TAG.button('Submit',_type="submit")]
+    buttons = [TAG.button('Submit',_type="submit"),
+               TAG.INPUT(_TYPE='BUTTON', _id="geocode", _class=stdclass, _onclick="", _VALUE="Get Co-ordinates")]
 
     # TAG.INPUT(_TYPE='BUTTON', _id="rev_geocode", _class=stdclass, _onclick="", _VALUE="Get Address"),
-    # TAG.INPUT(_TYPE='BUTTON', _id="geocode", _class=stdclass, _onclick="", _VALUE="Get Co-ordinates")]
+    # ]
 
 
     locationid = request.args(0, default=None)

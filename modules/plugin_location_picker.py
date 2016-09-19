@@ -73,9 +73,9 @@ def location_widget(**settings):
     default_settings = Storage(
         width=360,
         height=280,
-        mapid=randid(),
-        latid=randid(),
-        lngid=randid(),
+        mapid='lw_map',
+        latid='lw_lat',
+        lngid='lw_lng',
         map_options = {},
         marker_options = {}  
     )
@@ -104,13 +104,13 @@ def location_widget(**settings):
 
         html = CAT(
             DIV(
-                DIV(DIV(_id=settings.mapid, _class='map', _style='width: %(width)spx; height: %(height)spx' % settings), _class='col-lg-12 col-md-12'),
-                _class='row form-group'),
-            DIV(
                 DIV(INPUT(_id=settings.latid, _value=lat, _class='latitude form-control'), _class='col-lg-6 col-md-6'),
                 DIV(INPUT(_id=settings.lngid, _value=lng, _class='longitude form-control'), _class='col-lg-6 col-md-6'),
                 INPUT(_type='hidden', **attributes),
-            _class='row form-group')
+            _class='row form-group'),
+            DIV(
+                DIV(DIV(_id=settings.mapid, _class='map', _style='width: %(width)spx; height: %(height)spx' % settings), _class='col-lg-12 col-md-12'),
+                _class='row form-group')
         )
         hidden_id = attributes['_id']
         
