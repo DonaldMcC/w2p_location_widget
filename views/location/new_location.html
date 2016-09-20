@@ -5,22 +5,25 @@
 
 {{=form}}
 
+<div id="result"> </div>
 
 {{block right_sidebar}}
 
 
 {{end}}
-
+        
 <script>
-    {{#include 'location/new_location.js'}}
-</script>
-
-
-
-{{# TODO move to separate script presently or make part of plugin}}
-
-
-<script>
+    /* Settings here are for the fields on the form that you want mapped to the address code and the lat_id and lng_id that is set in
+       plugin_location_picker - doubtless these could in some manner be defined in python and transferred here however this will suffice
+       for now as hopefully only need the address stuff once anyway for what I am doing now
+     */
+    var lwlat = "#lw_lat";
+    var lwlng = "#lw_lng";
+    var addr1 = "#locn_address1";
+    var addr2 = "#locn_address2";
+    var addr3 = "#locn_address3";
+    var addr4 = "#locn_address4";
+    var addr_country = "#locn_country";
 
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(success);
@@ -28,44 +31,77 @@ if (navigator.geolocation) {
   error('Geo Location is not supported');
 }
 
-
 function geo_refresh() {
-console.log('ref')
 $("#lw_map").geolocate({
-	lat: "#lw_lat",
-	lng: "#lw_lng"
+	lat: lwlat,
+	lng: lwlng
 });
-    };
-
+    }
 
 function success(position) {
-     $("#lw_lat").val(position.coords.latitude);
-     $("#lw_lng").val(position.coords.longitude);
+     $(lwlat).val(position.coords.latitude);
+     $(lwlng).val(position.coords.longitude);
      geo_refresh();
     };
    
-$("#lw_lng" ).change(function() {
+$(lwlat ).change(function() {
      geo_refresh();
 });   
 
-$("#lw_lat" ).change(function() {
+$(lwlat ).change(function() {
      geo_refresh();
 });  
 
 $("#geocode").click(function(){
     $("#lw_map").geolocate({
-    lat: "#lw_lat",
-	lng: "#lw_lng",
-	address: ["#locn_address1","#locn_address2","#locn_address3","#locn_address4","#locn_country"]
+    lat: lwlat,
+	lng: lwlng,
+	address: [addr1, addr2, addr3, addr4, addr_country]
 });
 $("#lw_map").geolocate("callGeocoding");
         });
 
-
 $("#rev_geocode").click(function(){
-         console.log("Not going to implement this for now");
-    });
-    
+
+    /* https://www.raymondcamden.com/2013/03/05/Simple-Reverse-Geocoding-Example/?domain=raymondcamden.com */
+
+		var geocoder = new google.maps.Geocoder();
+		var latlng = new google.maps.LatLng($(lwlat).val(),$(lwlng).val());
+
+        geocoder.geocode({'latLng': latlng}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                //we'll do cool crap here
+                //Check result 0
+                var result = results[0];
+                //look for locality tag and administrative_area_level_1
+                //var street_number = "";
+                var route = "";
+                var city = "";
+                var county = "";
+                var state = "";
+                var postal_code = "";
+                var country = "";
+                for (var i = 0, len = result.address_components.length; i < len; i++) {
+                    var ac = result.address_components[i];
+                    if (ac.types.indexOf("route") >= 0) route = ac.long_name;
+                    if (ac.types.indexOf("postal_code") >= 0) postal_code = ac.long_name;
+                    if (ac.types.indexOf("locality") >= 0) city = ac.long_name;
+                    if (ac.types.indexOf("administrative_area_level_2") >= 0) county = ac.long_name;
+                    if (ac.types.indexOf("administrative_area_level_1") >= 0) state = ac.long_name;
+                    if (ac.types.indexOf("country") >= 0) country = ac.long_name;
+                }
+                //only report if we got Good Stuff
+                if (route != '') $(addr1).val(route);
+                if (city != '') $(addr2).val(city);
+                if (county != '') $(addr3).val(county);
+                if (state != '') $(addr4).val(state);
+                if (country != '') $(addr_country).val(country);
+
+            }
+        });
+
+});
+
   </script>
 
 
