@@ -77,6 +77,8 @@ def new_location():
                 response.flash = 'Location updated'
                 redirect(URL('default', 'index'))
         else:
+            form.vars.geox = 10
+            form.vars.geoy = 20
             form.vars.id = db.locn.insert(**dict(form.vars))
             session.flash = 'Location Created'
             redirect(URL('accept_location', args=[form.vars.id]))
@@ -85,7 +87,6 @@ def new_location():
     else:
         response.flash = 'please fill out the form'
     return dict(form=form)
-
 
 def accept_location():
     response.flash = "Location Created"
