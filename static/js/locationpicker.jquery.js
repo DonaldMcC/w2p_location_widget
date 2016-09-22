@@ -343,5 +343,7 @@
         oninitialized: function(component) {},
         markerIcon: undefined
     };
+
+
 })(jQuery);
 
