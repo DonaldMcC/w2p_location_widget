@@ -25,11 +25,16 @@
     var addr4 = "#locn_address4";
     var addr_country = "#locn_country";
 
-if (navigator.geolocation) {
+//only update with current location if not set on the record already
+//may make this optional at some point as well - but not in simple plugin
+//maybe an actual app preference on user profile    
+console.log($(lwlat).val());
+if ($(lwlat).val() == 0 && $(lwlng).val() == 0 && navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(success);
-} else {
-  error('Geo Location is not supported');
-}
+};
+/* else {
+  window.alert('Geo Location is not supported');
+}*/
 
 function geo_refresh() {
 $("#lw_map").geolocate({

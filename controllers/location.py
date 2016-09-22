@@ -9,14 +9,18 @@ new_location -  for creating and shortly editing locations
 accept_location - route after acceptance
 """
 
+from plugin_location_picker import IS_GEOLOCATION
 
+def index():
+    grid = SQLFORM.grid(db.locn, formstyle=SQLFORM.formstyles.bootstrap3_inline)
+    return locals()
 
 def new_location():
 
     stdclass = "btn btn-primary btn-xs btn-group-xs"
     # This allows creation and editing of a locations by their owner
-    fields = ['location_name', 'description', 'addrurl', 'address1', 'address2', 'address3', 'address4', 'addrcode',
-              'continent', 'country', 'subdivision', 'coord', 'locn_shared']
+    fields = ['location_name', 'description', 'address1', 'address2', 'address3', 'address4', 'addrcode',
+              'continent', 'country', 'subdivision', 'coord']
 
     buttons = [TAG.button('Submit',_type="submit"),
                TAG.INPUT(_TYPE='BUTTON', _id="geocode", _class=stdclass, _onclick="", _VALUE="Get Co-ordinates"),
@@ -35,14 +39,14 @@ def new_location():
             if form.deleted:
                 db(db.location.id == locationid).delete()
                 response.flash = 'Location deleted'
-                redirect(URL('default', 'index'))
+                redirect(URL('location', 'index'))
             else:
                 record.update_record(**dict(form.vars))
                 response.flash = 'Location updated'
-                redirect(URL('default', 'index'))
+                redirect(URL('location', 'index'))
         else:
-            form.vars.geox = 10
-            form.vars.geoy = 20
+            # write values into separate fields for indexed bb queries on non spatial databases
+            form.vars.geoy, form.vars.geox = IS_GEOLOCATION.parse_geopoint(form.vars.coord)
             form.vars.id = db.locn.insert(**dict(form.vars))
             session.flash = 'Location Created'
             redirect(URL('accept_location', args=[form.vars.id]))
