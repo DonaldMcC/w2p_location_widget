@@ -92,8 +92,7 @@ def location_widget(**settings):
         attributes = FormWidget._attributes(field, default, **attributes)
 
         if value and len(value) > 1:
-            #lat, lng = IS_GEOLOCATION.parse_geopoint(value)
-            lat, lng = value[0], value[1]
+            lat, lng = IS_GEOLOCATION.parse_geopoint(value)
             settings.marker_options['position'] = {'lat': lat, 'lng': lng}
             settings.map_options['center'] = {'lat': lat, 'lng': lng}
         else:
