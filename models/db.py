@@ -23,6 +23,7 @@ from gluon.contrib.appconfig import AppConfig
 # once in production, remove reload=True to gain full speed
 # -------------------------------------------------------------------------
 myconf = AppConfig(reload=True)
+GMAPKEY = myconf.get('google_maps.key')
 
 if not request.env.web2py_runtime_gae:
     # ---------------------------------------------------------------------

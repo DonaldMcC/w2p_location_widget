@@ -18,8 +18,7 @@ __status__ = 'Development'  # possible options: Prototype, Development, Producti
 from gluon import *
 from gluon.storage import Storage
 from gluon.sqlhtml import FormWidget
-from gluon.tools import json_parser
-import copy
+import json
 
 
 FILES = [
@@ -46,6 +45,7 @@ $.each(%s, function() {
 }});})(jQuery);""" % ('[%s]' % ','.join(["'%s'" % f.lower().split('?')[0] for f in files]))
     else:
         current.response.files[:0] = [f for f in files if f not in current.response.files]
+
 
 def location_widget(**settings):
     """
@@ -76,8 +76,8 @@ def location_widget(**settings):
         mapid='lw_map',
         latid='lw_lat',
         lngid='lw_lng',
-        map_options = {},
-        marker_options = {}  
+        map_options={},
+        marker_options={}
     )
 
     if settings is not None:
@@ -100,7 +100,6 @@ def location_widget(**settings):
                 lat, lng = (settings.marker_options['position']['lat'], settings.marker_options['position']['lng'])
             else:
                 lat, lng = 0.0, 0.0
-
 
         html = CAT(
             DIV(
@@ -125,18 +124,17 @@ def location_widget(**settings):
                     $('#%(hidden_id)s').val('POINT (' + $('#%(latid)s').val() + ' ' + $('#%(lngid)s').val() + ')');
                 });        
             """ % {
-                    'mapid' : settings.mapid,
-                    'latid' : settings.latid,
-                    'lngid' : settings.lngid,
-                    'marker_options' : json_parser.dumps(settings.marker_options),
-                    'map_options' : json_parser.dumps(settings.map_options),
+                    'mapid': settings.mapid,
+                    'latid': settings.latid,
+                    'lngid': settings.lngid,
+                    'marker_options': json.dumps(settings.marker_options),
+                    'map_options': json.dumps(settings.map_options),
                     'hidden_id': hidden_id
                 }
             )
         return CAT(html, javascript)
 
     return widget
-
 
 from gluon.validators import Validator, translate
 import re
@@ -168,9 +166,8 @@ class IS_GEOLOCATION(Validator):
         try:
             lat, lng = self.parse_geopoint(value)
             if (self.minlat <= lat <= self.maxlat) and (self.minlng <= lng <= self.maxlng):
-                return (value, None)
+                return value, None
             else:
-                return (value, translate(self.error_message))
+                return value, translate(self.error_message)
         except:
-            return (value, translate(self.error_message))
-
+            return value, translate(self.error_message)

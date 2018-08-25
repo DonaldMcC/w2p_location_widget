@@ -11,9 +11,11 @@ accept_location - route after acceptance
 
 from plugin_location_picker import IS_GEOLOCATION
 
+
 def index():
     grid = SQLFORM.grid(db.locn, formstyle=SQLFORM.formstyles.bootstrap3_inline)
     return locals()
+
 
 def new_location():
 
@@ -22,10 +24,9 @@ def new_location():
     fields = ['location_name', 'description', 'address1', 'address2', 'address3', 'address4', 'addrcode',
               'continent', 'country', 'subdivision', 'coord']
 
-    buttons = [TAG.button('Submit',_type="submit"),
+    buttons = [TAG.button('Submit', _type="submit"),
                TAG.INPUT(_TYPE='BUTTON', _id="geocode", _class=stdclass, _onclick="", _VALUE="Get Co-ordinates"),
                TAG.INPUT(_TYPE='BUTTON', _id="rev_geocode", _class=stdclass, _onclick="", _VALUE="Get Address")]
-
 
     locationid = request.args(0, default=None)
     if locationid is not None:
@@ -55,6 +56,7 @@ def new_location():
     else:
         response.flash = 'please fill out the form'
     return dict(form=form)
+
 
 def accept_location():
     response.flash = "Location Created"
