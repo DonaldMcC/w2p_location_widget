@@ -25,6 +25,9 @@ from gluon.contrib.appconfig import AppConfig
 myconf = AppConfig(reload=True)
 GMAPKEY = myconf.get('google_maps.key')
 
+if myconf.take('site.require_https', cast=int):
+    request.requires_https()
+
 if not request.env.web2py_runtime_gae:
     # ---------------------------------------------------------------------
     # if NOT running on Google App Engine use SQLite or other DB
@@ -109,6 +112,8 @@ mail.settings.ssl = myconf.get('smtp.ssl') or False
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
+
+
 
 # -------------------------------------------------------------------------
 # Define your tables below (or better in another model file) for example
