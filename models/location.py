@@ -16,8 +16,7 @@ db.define_table('locn',
                 Field('geox', 'double', default=0.0, label='Longitude'),
                 Field('geoy', 'double', default=0.0, label='Latitude'),
                 Field('coord', label='Lat/Longitude'),
-                Field('description', 'text'),
-                  format='%(location_name)s')
+                Field('description', 'text'),format='%(location_name)s')
                   
 db.locn.coord.requires = IS_GEOLOCATION()
 db.locn.coord.widget = location_widget()
